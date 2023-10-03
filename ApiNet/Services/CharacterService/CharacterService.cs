@@ -1,4 +1,6 @@
-﻿namespace ApiNet.Services.CharacterService
+﻿using AutoMapper.QueryableExtensions;
+
+namespace ApiNet.Services.CharacterService
 {
     public class CharacterService : ICharacterService
     {
@@ -41,8 +43,10 @@
 
             try
             {
-                var dbCharacters = await _dataContext.Characters.ToListAsync();
-                serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                serviceResponse.Data = await _dataContext.Characters
+                    .ProjectTo<GetCharacterDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+
             }
             catch (Exception ex)
             {
@@ -58,14 +62,34 @@
             var serviceResponse = new ServiceResponse<GetCharacterDto>();
             try
             {
-                var dbCharacter = await _dataContext.Characters.FirstOrDefaultAsync(c => c.Id == id);
-                serviceResponse.Data = _mapper.Map<GetCharacterDto>(dbCharacter);
+                serviceResponse.Data = await _dataContext.Characters
+                    .ProjectTo<GetCharacterDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(c => c.Id == id);
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<ShortDescriptionDto>> GetShortDescription(int id)
+        {
+            var serviceResponse = new ServiceResponse<ShortDescriptionDto>();
+            try
+            {
+                serviceResponse.Data = await _dataContext.Characters                   
+                    .ProjectTo<ShortDescriptionDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
             return serviceResponse;
         }
 
@@ -112,8 +136,9 @@
 
                 await _dataContext.SaveChangesAsync();
 
-                var dbCharacters = await _dataContext.Characters.ToListAsync();
-                serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                serviceResponse.Data = await _dataContext.Characters
+                    .ProjectTo<GetCharacterDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {

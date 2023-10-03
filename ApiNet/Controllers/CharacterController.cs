@@ -29,6 +29,12 @@ namespace ApiNet.Controllers
             return Ok(await _characterService.GetCharacterById(id));
         }
 
+        [HttpGet("GetShortDescription/{id}")]
+        public async Task<ActionResult<ServiceResponse<ShortDescriptionDto>>> GetShortDescription(int id)
+        {
+            return Ok(await _characterService.GetShortDescription(id));
+        }
+
         [HttpPost("AddNewCharacter")]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter)
         {
