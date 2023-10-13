@@ -6,6 +6,8 @@
         {            
         }
         public DbSet<Character> Characters { get; set; }
+        public DbSet<RpgClass> RpgClasses { get; set; }
+        public DbSet<Power> Powers { get; set; }
 
     }
 }

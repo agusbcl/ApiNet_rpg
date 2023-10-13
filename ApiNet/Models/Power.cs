@@ -1,9 +1,9 @@
 ﻿namespace ApiNet.Models
 {
-    public class RpgClass
+    public class Power
     {
         public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; }
         public List<Character> Characters { get; set; }
     }
 }

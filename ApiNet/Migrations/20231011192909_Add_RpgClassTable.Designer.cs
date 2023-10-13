@@ -3,6 +3,7 @@ using ApiNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiNet.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231011192909_Add_RpgClassTable")]
+    partial class Add_RpgClassTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,23 +58,6 @@ namespace ApiNet.Migrations
                     b.ToTable("Characters");
                 });
 
-            modelBuilder.Entity("ApiNet.Models.Power", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Powers");
-                });
-
             modelBuilder.Entity("ApiNet.Models.RpgClass", b =>
                 {
                     b.Property<int>("Id")
@@ -89,21 +75,6 @@ namespace ApiNet.Migrations
                     b.ToTable("RpgClasses");
                 });
 
-            modelBuilder.Entity("CharacterPower", b =>
-                {
-                    b.Property<int>("CharactersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PowersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CharactersId", "PowersId");
-
-                    b.HasIndex("PowersId");
-
-                    b.ToTable("CharacterPower");
-                });
-
             modelBuilder.Entity("ApiNet.Models.Character", b =>
                 {
                     b.HasOne("ApiNet.Models.RpgClass", "RpgClass")
@@ -113,21 +84,6 @@ namespace ApiNet.Migrations
                         .IsRequired();
 
                     b.Navigation("RpgClass");
-                });
-
-            modelBuilder.Entity("CharacterPower", b =>
-                {
-                    b.HasOne("ApiNet.Models.Character", null)
-                        .WithMany()
-                        .HasForeignKey("CharactersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiNet.Models.Power", null)
-                        .WithMany()
-                        .HasForeignKey("PowersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ApiNet.Models.RpgClass", b =>

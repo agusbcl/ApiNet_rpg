@@ -8,6 +8,8 @@
         public int Strength { get; set; }
         public int Defense { get; set; }
         public int Intelligence { get; set; }
-        public RpgClass Class { get; set; }
+        public int RpgClassId { get; set; }
+        public RpgClass RpgClass { get; set; }
+        public List<Power> Powers { get; set; }
     }
 }

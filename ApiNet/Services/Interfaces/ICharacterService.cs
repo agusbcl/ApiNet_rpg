@@ -1,4 +1,4 @@
-﻿namespace ApiNet.Services.CharacterService
+﻿namespace ApiNet.Services.Interfaces
 {
     public interface ICharacterService
     {

@@ -1,9 +1,10 @@
 global using Microsoft.EntityFrameworkCore;
 global using ApiNet.Models;
-global using ApiNet.Services.CharacterService;
 global using ApiNet.Dtos.Character;
 global using AutoMapper;
 global using ApiNet.Data;
+global using ApiNet.Services;
+global using ApiNet.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICharacterService, CharacterService>();
+builder.Services.AddScoped<IRpgClassService, RpgClassService>();
+builder.Services.AddScoped<IPowerService, PowerService>();
 
 var app = builder.Build();
 

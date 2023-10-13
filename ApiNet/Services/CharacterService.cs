@@ -1,6 +1,6 @@
 ﻿using AutoMapper.QueryableExtensions;
 
-namespace ApiNet.Services.CharacterService
+namespace ApiNet.Services
 {
     public class CharacterService : ICharacterService
     {
@@ -79,7 +79,7 @@ namespace ApiNet.Services.CharacterService
             var serviceResponse = new ServiceResponse<ShortDescriptionDto>();
             try
             {
-                serviceResponse.Data = await _dataContext.Characters                   
+                serviceResponse.Data = await _dataContext.Characters
                     .ProjectTo<ShortDescriptionDto>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(c => c.Id == id);
 

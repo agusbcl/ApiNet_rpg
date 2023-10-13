@@ -1,9 +1,8 @@
-﻿namespace ApiNet.Models
+﻿namespace ApiNet.Dtos.RpgClass
 {
-    public class RpgClass
+    public class RpgClassDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public List<Character> Characters { get; set; }
     }
 }
