@@ -7,7 +7,8 @@ namespace ApiNet
     {
         public AutoMapperProfile()
         {
-            CreateMap<Character, GetCharacterDto>();
+            CreateMap<Character, GetCharacterDto>()
+                .ForMember(dest => dest.RpgClass, src => src.MapFrom(x => x.RpgClass));
             CreateMap<AddCharacterDto, Character>();
             CreateMap<UpdateCharacterDto, Character>();
             CreateMap<Character, ShortDescriptionDto>();

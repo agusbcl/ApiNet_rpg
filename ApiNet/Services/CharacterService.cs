@@ -99,17 +99,25 @@ namespace ApiNet.Services
 
             try
             {
-                var dbCharacter = await _dataContext.Characters.AsTracking().FirstOrDefaultAsync(c => c.Id == id);
+                var dbCharacter = await _dataContext.Characters
+                    .Include(c => c.RpgClass)
+                    .Include(c => c.Powers)
+                    .AsTracking()
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
                 if (dbCharacter == null)
                 {
                     throw new Exception($"Character with Id '{id}' not found.");
                 }
 
                 _mapper.Map(updatedCharacter, dbCharacter);
+                dbCharacter.Powers = await _dataContext.Powers.Where(p => updatedCharacter.PowerIds.Any(x => x == p.Id)).ToListAsync(); 
 
                 await _dataContext.SaveChangesAsync();
 
-                serviceResponse.Data = _mapper.Map<GetCharacterDto>(dbCharacter);
+                serviceResponse.Data = await _dataContext.Characters
+                    .ProjectTo<GetCharacterDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(c => c.Id == id);
             }
             catch (Exception ex)
             {
